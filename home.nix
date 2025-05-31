@@ -24,7 +24,7 @@
     tree
   ];
 
-  home.file.".tmux.conf".source = ./dotfiles/shell/.tmux.conf;
+  home.file.".tmux.conf".source = ./dotfiles/shell/tmux.conf;
 
   # You can define dotfiles like this
   home.file.".config/nvim/init.vim".text = ''

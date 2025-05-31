@@ -10,6 +10,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    dotfiles.url = "path:./dotfiles/shell/tmux.conf";
+    dotfiles.flake = false;
   };
 
   outputs = { self, nixpkgs, nixos-wsl, ... }@inputs: {
