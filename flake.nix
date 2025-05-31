@@ -11,7 +11,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dotfiles.url = "./dotfiles/";
+    dotfiles.url = "path:dotfiles/";
     dotfiles.flake = false;
   };
 

@@ -3,11 +3,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "path": "./dotfiles/",
+        "path": "dotfiles/",
         "type": "path"
       },
       "original": {
-        "path": "./dotfiles/",
+        "path": "dotfiles/",
         "type": "path"
       },
       "parent": []
