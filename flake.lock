@@ -3,11 +3,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "path": "./dotfiles/shell/tmux.conf",
+        "path": "./dotfiles/",
         "type": "path"
       },
       "original": {
-        "path": "./dotfiles/shell/tmux.conf",
+        "path": "./dotfiles/",
         "type": "path"
       },
       "parent": []

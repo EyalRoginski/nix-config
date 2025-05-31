@@ -11,7 +11,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dotfiles.url = "path:./dotfiles/shell/tmux.conf";
+    dotfiles.url = "./dotfiles/";
     dotfiles.flake = false;
   };
 
