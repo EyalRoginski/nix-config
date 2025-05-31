@@ -22,9 +22,15 @@
     openssh
     tmux
     tree
+    starship
   ];
 
+  programs.starship.enable = true;
+  programs.zsh.enable = true;
+  programs.zsh.initContent = "eval '$(starship init zsh)'";
+
   home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
+
 
   # You can define dotfiles like this
   home.file.".config/nvim/init.vim".text = ''

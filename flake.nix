@@ -11,7 +11,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    dotfiles.url = "path:dotfiles/";
+    dotfiles.url = "github:EyalRoginski/dotfiles";
     dotfiles.flake = false;
   };
 

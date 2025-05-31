@@ -3,14 +3,18 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "path": "dotfiles/",
-        "type": "path"
+        "lastModified": 1745921968,
+        "narHash": "sha256-4U6Ej4A7wy6Agoiap4rWRAKkSzX9HX+Se2wY0gt3wZQ=",
+        "owner": "EyalRoginski",
+        "repo": "dotfiles",
+        "rev": "65ad3293e688cb8694a5475f1ee6bb8afc4caa8e",
+        "type": "github"
       },
       "original": {
-        "path": "dotfiles/",
-        "type": "path"
-      },
-      "parent": []
+        "owner": "EyalRoginski",
+        "repo": "dotfiles",
+        "type": "github"
+      }
     },
     "flake-compat": {
       "flake": false,
