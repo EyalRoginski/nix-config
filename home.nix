@@ -1,6 +1,9 @@
-{ config, pkgs, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.nixvim.homeModules.nixvim
   ];
@@ -28,7 +31,7 @@
     tn = "tmux new";
     tnc = "tmux new -c";
 
-# Shlafman's git aliases, now in Nix form!
+    # Shlafman's git aliases, now in Nix form!
     ga = "git add";
     gs = "git status";
     gd = "git diff";
@@ -45,8 +48,6 @@
     gpushu = "git push origin $(git branch --show-current) --set-upstream";
   };
 
-
-
   home.packages = with pkgs; [
     htop
     git
@@ -62,6 +63,8 @@
     tokei
     ripgrep
     just
+    rustfmt
+    alejandra
   ];
 
   programs.zsh.enable = true;
@@ -115,14 +118,13 @@
       colorcolumn = "100";
     };
 
-
     keymaps = [
       # --- Normal + Visual mode ---
       {
-	key = ";";
-	action = ":";
-	mode = [ "n" "v" ];
-	options.noremap = true;
+        key = ";";
+        action = ":";
+        mode = ["n" "v"];
+        options.noremap = true;
       }
 
       # --- Normal mode ---
@@ -134,91 +136,91 @@
       }
 
       {
-	key = "<leader>pv";
-	action = "<cmd>Ex<CR>";
-	mode = "n";
+        key = "<leader>pv";
+        action = "<cmd>Ex<CR>";
+        mode = "n";
       }
 
       {
-	key = "<leader>w";
-	action = "<cmd>up<CR>";
-	mode = "n";
+        key = "<leader>w";
+        action = "<cmd>up<CR>";
+        mode = "n";
       }
 
       {
-	key = "<leader>W";
-	action = ''
-	  function()
-	    vim.cmd("noa up")
-	  end
-	'';
-	mode = "n";
+        key = "<leader>W";
+        action = ''
+          function()
+            vim.cmd("noa up")
+          end
+        '';
+        mode = "n";
       }
 
       {
-	key = "<C-d>";
-	action = "<C-d>zz";
-	mode = "n";
+        key = "<C-d>";
+        action = "<C-d>zz";
+        mode = "n";
       }
 
       {
-	key = "<C-u>";
-	action = "<C-u>zz";
-	mode = "n";
+        key = "<C-u>";
+        action = "<C-u>zz";
+        mode = "n";
       }
 
       {
-	key = "n";
-	action = "nzzzv";
-	mode = "n";
+        key = "n";
+        action = "nzzzv";
+        mode = "n";
       }
 
       {
-	key = "N";
-	action = "Nzzzv";
-	mode = "n";
+        key = "N";
+        action = "Nzzzv";
+        mode = "n";
       }
 
       {
-	key = "<C-k>";
-	action = "<cmd>cnext<CR>zz";
-	mode = "n";
+        key = "<C-k>";
+        action = "<cmd>cnext<CR>zz";
+        mode = "n";
       }
 
       {
-	key = "<C-j>";
-	action = "<cmd>cprev<CR>zz";
-	mode = "n";
+        key = "<C-j>";
+        action = "<cmd>cprev<CR>zz";
+        mode = "n";
       }
 
       {
-	key = "<leader>k";
-	action = "<cmd>lnext<CR>zz";
-	mode = "n";
+        key = "<leader>k";
+        action = "<cmd>lnext<CR>zz";
+        mode = "n";
       }
 
       {
-	key = "<leader>j";
-	action = "<cmd>lprev<CR>zz";
-	mode = "n";
+        key = "<leader>j";
+        action = "<cmd>lprev<CR>zz";
+        mode = "n";
       }
 
       {
-	key = "<leader>n";
-	action = "<cmd>bnext<CR>zz";
-	mode = "n";
+        key = "<leader>n";
+        action = "<cmd>bnext<CR>zz";
+        mode = "n";
       }
 
       {
-	key = "<leader>P";
-	action = "<cmd>bprev<CR>zz";
-	mode = "n";
+        key = "<leader>P";
+        action = "<cmd>bprev<CR>zz";
+        mode = "n";
       }
 
       {
-	key = "<leader>Y";
-	action = "<cmd>PyrightSetPythonPath .venv/bin/python<CR>zz";
-	mode = "n";
+        key = "<leader>Y";
+        action = "<cmd>PyrightSetPythonPath .venv/bin/python<CR>zz";
+        mode = "n";
       }
 
       # --- Visual mode only ---
@@ -238,13 +240,13 @@
       {
         key = "<leader>y";
         action = ''"+y'';
-        mode = [ "n" "v" ];
+        mode = ["n" "v"];
       }
 
       {
         key = "<leader>d";
         action = ''"_d'';
-        mode = [ "n" "v" ];
+        mode = ["n" "v"];
       }
 
       # --- Visual mode (x) only ---
@@ -255,95 +257,185 @@
       }
     ];
 
-
     plugins = {
+      conform-nvim.enable = true;
+      conform-nvim.settings = {
+        formatters_by_ft = {
+          nix = ["alejandra"];
+          rust = ["rustfmt"];
+        };
+
+        format_on_save = {
+          lsp_format = "fallback";
+          timeout_ms = 500;
+        };
+      };
+
+      luasnip.enable = true;
+      cmp = {
+        enable = true;
+
+        settings.sources = [
+          {
+            name = "nvim_lsp";
+          }
+          {
+            name = "luasnip";
+          }
+          {
+            name = "path";
+          }
+          {
+            name = "buffer";
+          }
+        ];
+
+        settings.mapping = {
+          "<Tab>" = ''
+            cmp.mapping(function(fallback)
+              local luasnip = require("luasnip")
+              if not cmp.get_selected_entry() then
+                cmp.select_next_item()
+              end
+              if cmp.visible() then
+                cmp.confirm()
+              elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+              else
+                fallback()
+              end
+            end, { "i", "s" })
+          '';
+
+          "<S-Tab>" = ''
+            cmp.mapping(function(fallback)
+              local luasnip = require("luasnip")
+              if luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+              else
+                fallback()
+              end
+            end, { "i", "s" })
+          '';
+
+          "<CR>" = ''
+            cmp.mapping(function(fallback)
+              if not cmp.get_selected_entry() then
+                cmp.select_next_item()
+              end
+              if cmp.visible() then
+                cmp.confirm()
+                vim.api.nvim_input("<CR>")
+              else
+                fallback()
+              end
+            end, { "i", "s" })
+          '';
+
+          "<C-j>" = ''
+            cmp.mapping(function(fallback)
+              if cmp.visible() then
+                cmp.select_next_item()
+              else
+                fallback()
+              end
+            end, { "i", "s" })
+          '';
+
+          "<C-k>" = ''
+            cmp.mapping(function(fallback)
+              if cmp.visible() then
+                cmp.select_prev_item()
+              else
+                fallback()
+              end
+            end, { "i", "s" })
+          '';
+        };
+      };
       lsp = {
-	enable = true;
-	servers = {
-	  nixd.enable = true;
-	  rust_analyzer = {
-	    enable = true;
-	    installCargo = true;
-	    installRustc = true;
-	  };
-	};
+        enable = true;
+        servers = {
+          nixd.enable = true;
+          rust_analyzer = {
+            enable = true;
+            installCargo = true;
+            installRustc = true;
+          };
+        };
       };
 
       treesitter = {
-	enable = true;
-	settings = {
-	  ensure_installed = ["python" "rust" "javascript" "java" "html" "c" "lua" "vim" "vimdoc" "query"];
-	  sync_install = false;
-	  auto_install = true;
-	  highlight = {
-	    enable = true;
-	    additional_vim_regex_highlighting = false;
-	  };
-	};
+        enable = true;
+        settings = {
+          ensure_installed = ["python" "rust" "javascript" "java" "html" "c" "lua" "vim" "vimdoc" "query"];
+          sync_install = false;
+          auto_install = true;
+          highlight = {
+            enable = true;
+            additional_vim_regex_highlighting = false;
+          };
+        };
       };
 
       telescope = {
-	enable = true;
+        enable = true;
 
         settings.defaults = {
-	  mappings = {
-	    i = {
-	      "<C-j>" = "move_selection_next";
-	      "<C-k>" = "move_selection_previous";
-	    };
-	  };
-	};
+          mappings = {
+            i = {
+              "<C-j>" = "move_selection_next";
+              "<C-k>" = "move_selection_previous";
+            };
+          };
+        };
 
         keymaps = {
-	  "<leader>ff" = {
-	    action = "find_files";
-	    options.desc = "Find files";
-	  };
+          "<leader>ff" = {
+            action = "find_files";
+            options.desc = "Find files";
+          };
 
-	  "<leader>fa" = {
-	    action = ''
-	      function()
-		require("telescope.builtin").find_files({
-		  hidden = true,
-		  no_ignore = true,
-		  no_ignore_parent = true,
-		})
-	      end
-	    '';
-	    options.desc = "Find all files (including hidden and ignored)";
-	  };
+          "<leader>fa" = {
+            action = ''
+                   function()
+              require("telescope.builtin").find_files({
+                hidden = true,
+                no_ignore = true,
+                no_ignore_parent = true,
+              })
+                   end
+            '';
+            options.desc = "Find all files (including hidden and ignored)";
+          };
 
-	  "<leader>fp" = {
-	    action = "git_files";
-	    options.desc = "Find Git-tracked files";
-	  };
+          "<leader>fp" = {
+            action = "git_files";
+            options.desc = "Find Git-tracked files";
+          };
 
-	  "<leader>fg" = {
-	    action = "live_grep";
-	    options.desc = "Live grep";
-	  };
+          "<leader>fg" = {
+            action = "live_grep";
+            options.desc = "Live grep";
+          };
 
-	  "<leader>fm" = {
-	    action = "buffers";
-	    options.desc = "List open buffers";
-	  };
+          "<leader>fm" = {
+            action = "buffers";
+            options.desc = "List open buffers";
+          };
 
-	  "<leader>ls" = {
-	    action = "lsp_document_symbols";
-	    options.desc = "LSP document symbols";
-	  };
+          "<leader>ls" = {
+            action = "lsp_document_symbols";
+            options.desc = "LSP document symbols";
+          };
 
-	  "<leader>la" = {
-	    action = "lsp_dynamic_workspace_symbols";
-	    options.desc = "LSP workspace symbols";
-	  };
-	};
+          "<leader>la" = {
+            action = "lsp_dynamic_workspace_symbols";
+            options.desc = "LSP workspace symbols";
+          };
+        };
       };
-
-
     };
-
-
   };
 
   programs.tmux = {
@@ -353,18 +445,17 @@
       {
         plugin = tmuxPlugins.dracula;
         extraConfig = ''
-        # Dracula config
-            set -g @dracula-show-powerline true
-            set -g @dracula-show-left-icon session
-            set -g @dracula-plugins "time git battery"
-            set -g @dracula-show-timezone false
-            set -g @dracula-military-time true
-            set -g @dracula-show-empty-plugins false
+          # Dracula config
+              set -g @dracula-show-powerline true
+              set -g @dracula-show-left-icon session
+              set -g @dracula-plugins "time git battery"
+              set -g @dracula-show-timezone false
+              set -g @dracula-military-time true
+              set -g @dracula-show-empty-plugins false
         '';
       }
     ];
   };
-
 
   # This is required
   home.stateVersion = "24.11";
