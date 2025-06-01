@@ -13,6 +13,11 @@
 
     dotfiles.url = "github:EyalRoginski/dotfiles";
     dotfiles.flake = false;
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixos-wsl, ... }@inputs: {

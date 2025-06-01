@@ -1,6 +1,10 @@
 { config, pkgs, inputs, ... }:
 
 {
+  imports = [
+    inputs.nixvim.homeModules.nixvim
+  ];
+
   home.username = "roginski";
   home.homeDirectory = "/home/roginski";
 
@@ -47,7 +51,6 @@
     htop
     git
     fd
-    neovim
     openssh
     tmux
     tree
@@ -72,6 +75,277 @@
   home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
   home.file.".p10k.zsh".source = "${inputs.dotfiles}/shell/.p10k.zsh";
 
+  programs.nixvim = {
+    enable = true;
+
+    colorschemes.kanagawa.enable = true;
+
+    globals.mapleader = " ";
+
+    opts = {
+      # Line numbers
+      nu = true;
+      relativenumber = true;
+
+      # Tabs and indentation
+      tabstop = 4;
+      softtabstop = 4;
+      shiftwidth = 4;
+      expandtab = true;
+      smartindent = true;
+
+      # Text display
+      wrap = false;
+
+      # Swap/backup/undo
+      swapfile = false;
+      backup = false;
+      undodir = "${config.home.homeDirectory}/.vim/undodir";
+      undofile = true;
+
+      # Searching
+      hlsearch = false;
+      incsearch = true;
+
+      # Appearance
+      termguicolors = true;
+      scrolloff = 8;
+      signcolumn = "yes";
+      updatetime = 50;
+      colorcolumn = "100";
+    };
+
+
+    keymaps = [
+      # --- Normal + Visual mode ---
+      {
+	key = ";";
+	action = ":";
+	mode = [ "n" "v" ];
+	options.noremap = true;
+      }
+
+      # --- Normal mode ---
+
+      {
+        key = "gl";
+        action = "<cmd>lua vim.diagnostic.open_float()<CR>";
+        mode = "n";
+      }
+
+      {
+	key = "<leader>pv";
+	action = "<cmd>Ex<CR>";
+	mode = "n";
+      }
+
+      {
+	key = "<leader>w";
+	action = "<cmd>up<CR>";
+	mode = "n";
+      }
+
+      {
+	key = "<leader>W";
+	action = ''
+	  function()
+	    vim.cmd("noa up")
+	  end
+	'';
+	mode = "n";
+      }
+
+      {
+	key = "<C-d>";
+	action = "<C-d>zz";
+	mode = "n";
+      }
+
+      {
+	key = "<C-u>";
+	action = "<C-u>zz";
+	mode = "n";
+      }
+
+      {
+	key = "n";
+	action = "nzzzv";
+	mode = "n";
+      }
+
+      {
+	key = "N";
+	action = "Nzzzv";
+	mode = "n";
+      }
+
+      {
+	key = "<C-k>";
+	action = "<cmd>cnext<CR>zz";
+	mode = "n";
+      }
+
+      {
+	key = "<C-j>";
+	action = "<cmd>cprev<CR>zz";
+	mode = "n";
+      }
+
+      {
+	key = "<leader>k";
+	action = "<cmd>lnext<CR>zz";
+	mode = "n";
+      }
+
+      {
+	key = "<leader>j";
+	action = "<cmd>lprev<CR>zz";
+	mode = "n";
+      }
+
+      {
+	key = "<leader>n";
+	action = "<cmd>bnext<CR>zz";
+	mode = "n";
+      }
+
+      {
+	key = "<leader>P";
+	action = "<cmd>bprev<CR>zz";
+	mode = "n";
+      }
+
+      {
+	key = "<leader>Y";
+	action = "<cmd>PyrightSetPythonPath .venv/bin/python<CR>zz";
+	mode = "n";
+      }
+
+      # --- Visual mode only ---
+      {
+        key = "J";
+        action = ":m '>+1<CR>gv=gv";
+        mode = "v";
+      }
+
+      {
+        key = "K";
+        action = ":m '<-2<CR>gv=gv";
+        mode = "v";
+      }
+
+      # --- Visual + Normal mode ---
+      {
+        key = "<leader>y";
+        action = ''"+y'';
+        mode = [ "n" "v" ];
+      }
+
+      {
+        key = "<leader>d";
+        action = ''"_d'';
+        mode = [ "n" "v" ];
+      }
+
+      # --- Visual mode (x) only ---
+      {
+        key = "<leader>p";
+        action = ''"_dP'';
+        mode = "x";
+      }
+    ];
+
+
+    plugins = {
+      lsp = {
+	enable = true;
+	servers = {
+	  nixd.enable = true;
+	  rust_analyzer = {
+	    enable = true;
+	    installCargo = true;
+	    installRustc = true;
+	  };
+	};
+      };
+
+      treesitter = {
+	enable = true;
+	settings = {
+	  ensure_installed = ["python" "rust" "javascript" "java" "html" "c" "lua" "vim" "vimdoc" "query"];
+	  sync_install = false;
+	  auto_install = true;
+	  highlight = {
+	    enable = true;
+	    additional_vim_regex_highlighting = false;
+	  };
+	};
+      };
+
+      telescope = {
+	enable = true;
+
+        settings.defaults = {
+	  mappings = {
+	    i = {
+	      "<C-j>" = "move_selection_next";
+	      "<C-k>" = "move_selection_previous";
+	    };
+	  };
+	};
+
+        keymaps = {
+	  "<leader>ff" = {
+	    action = "find_files";
+	    options.desc = "Find files";
+	  };
+
+	  "<leader>fa" = {
+	    action = ''
+	      function()
+		require("telescope.builtin").find_files({
+		  hidden = true,
+		  no_ignore = true,
+		  no_ignore_parent = true,
+		})
+	      end
+	    '';
+	    options.desc = "Find all files (including hidden and ignored)";
+	  };
+
+	  "<leader>fp" = {
+	    action = "git_files";
+	    options.desc = "Find Git-tracked files";
+	  };
+
+	  "<leader>fg" = {
+	    action = "live_grep";
+	    options.desc = "Live grep";
+	  };
+
+	  "<leader>fm" = {
+	    action = "buffers";
+	    options.desc = "List open buffers";
+	  };
+
+	  "<leader>ls" = {
+	    action = "lsp_document_symbols";
+	    options.desc = "LSP document symbols";
+	  };
+
+	  "<leader>la" = {
+	    action = "lsp_dynamic_workspace_symbols";
+	    options.desc = "LSP workspace symbols";
+	  };
+	};
+      };
+
+
+    };
+
+
+  };
+
   programs.tmux = {
     enable = true;
     plugins = with pkgs; [
@@ -91,7 +365,6 @@
     ];
   };
 
-  home.file.".config/nvim".source = "${inputs.dotfiles}/nvim/.config/nvim";
 
   # This is required
   home.stateVersion = "24.11";
