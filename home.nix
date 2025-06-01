@@ -55,6 +55,10 @@
     gcc
     nodejs_24
     bat
+    cargo
+    tokei
+    ripgrep
+    just
   ];
 
   programs.zsh.enable = true;
