@@ -22,14 +22,13 @@
     openssh
     tmux
     tree
-    starship
+    zsh-powerlevel10k
   ];
 
-  programs.starship.enable = true;
   programs.zsh.enable = true;
-  programs.zsh.initContent = "eval '$(starship init zsh)'";
-
+  programs.zsh.initContent = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme\nsource ~/.p10k.zsh";
   home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
+  home.file.".p10k.zsh".source = "${inputs.dotfiles}/shell/.p10k.zsh";
 
 
   # You can define dotfiles like this
