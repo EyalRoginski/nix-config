@@ -13,6 +13,35 @@
     userEmail = "eyalrog1@gmail.com";
   };
 
+  home.shellAliases = {
+    python = "python3";
+    ipython = "ipython3";
+    cat = "bat";
+
+    ta = "tmux attach -t";
+    tal = "tmux attach";
+    tls = "tmux ls";
+    tn = "tmux new";
+    tnc = "tmux new -c";
+
+# Shlafman's git aliases, now in Nix form!
+    ga = "git add";
+    gs = "git status";
+    gd = "git diff";
+    gb = "git branch";
+    gcb = "git branch --show-current";
+    gr = "git restore";
+    gcm = "git commit -m";
+    gcam = "git add . && git commit -m";
+    gco = "git checkout";
+    gcob = "git checkout -b";
+    gcom = "git checkout main && git pull origin main";
+    gpull = "git pull origin $(git branch --show-current)";
+    gpush = "git push origin $(git branch --show-current)";
+    gpushu = "git push origin $(git branch --show-current) --set-upstream";
+  };
+
+
 
   home.packages = with pkgs; [
     htop
@@ -25,10 +54,17 @@
     zsh-powerlevel10k
     gcc
     nodejs_24
+    bat
   ];
 
   programs.zsh.enable = true;
-  programs.zsh.initContent = "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme\nsource ~/.p10k.zsh";
+  programs.zsh.initContent = ''
+    tncs() {
+      tmux new -c "$1" -s "$2"
+    }
+    source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+    source ~/.p10k.zsh
+  '';
   home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
   home.file.".p10k.zsh".source = "${inputs.dotfiles}/shell/.p10k.zsh";
 
