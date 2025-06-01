@@ -23,6 +23,9 @@
     tmux
     tree
     zsh-powerlevel10k
+    tmuxPlugins.dracula
+    gcc
+    nodejs_24
   ];
 
   programs.zsh.enable = true;
@@ -30,12 +33,7 @@
   home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
   home.file.".p10k.zsh".source = "${inputs.dotfiles}/shell/.p10k.zsh";
 
-
-  # You can define dotfiles like this
-  home.file.".config/nvim/init.vim".text = ''
-    set number
-    syntax on
-  '';
+  home.file.".config/nvim".source = "${inputs.dotfiles}/nvim/.config/nvim";
 
   # This is required
   home.stateVersion = "24.11";
