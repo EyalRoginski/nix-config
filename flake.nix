@@ -23,8 +23,10 @@
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
-	      nixos-wsl.nixosModules.default
-      	inputs.home-manager.nixosModules.default
+        nixos-wsl.nixosModules.default
+      	inputs.home-manager.nixosModules.home-manager {
+          home-manager.extraSpecialArgs = { inherit inputs nixpkgs; };
+        }
       ];
     };
 
@@ -33,6 +35,7 @@
       modules = [
         ./home.nix # Assuming your Home Manager configuration is in home.nix
       ];
+      # specialArgs = { inherit inputs nixpkgs; };
       extraSpecialArgs = { inherit inputs nixpkgs; };
     };
   };

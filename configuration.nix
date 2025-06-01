@@ -10,6 +10,7 @@
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    inputs.home-manager.nixosModules.default
   ];
 
   wsl.enable = true;
