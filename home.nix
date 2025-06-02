@@ -267,6 +267,7 @@
 
     plugins = {
       lexima.enable = true;
+      nvim-surround.enable = true;
 
       conform-nvim.enable = true;
       conform-nvim.settings = {
