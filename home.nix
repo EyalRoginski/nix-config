@@ -65,6 +65,7 @@
     just
     rustfmt
     alejandra
+    bacon
   ];
 
   programs.zsh.enable = true;
