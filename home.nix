@@ -66,6 +66,7 @@
     rustfmt
     alejandra
     bacon
+    clippy
   ];
 
   programs.zsh.enable = true;
