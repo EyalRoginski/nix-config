@@ -130,6 +130,12 @@
       # --- Normal mode ---
 
       {
+        key = "gd";
+        action = "<cmd> lua vim.lsp.buf.definition()<CR>";
+        mode = "n";
+      }
+
+      {
         key = "gl";
         action = "<cmd>lua vim.diagnostic.open_float()<CR>";
         mode = "n";
