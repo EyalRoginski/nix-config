@@ -67,6 +67,12 @@
     alejandra
     bacon
     clippy
+    gnumake
+    qemu
+    gdb
+    nasm
+    xorriso
+    grub2
   ];
 
   programs.zsh.enable = true;
@@ -373,6 +379,7 @@
             installCargo = true;
             installRustc = true;
           };
+          clangd.enable = true;
         };
       };
 
