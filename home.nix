@@ -73,6 +73,7 @@
     nasm
     xorriso
     grub2
+    ruff
   ];
 
   programs.zsh.enable = true;
@@ -280,6 +281,7 @@
         formatters_by_ft = {
           nix = ["alejandra"];
           rust = ["rustfmt"];
+          python = ["ruff_format"];
         };
 
         format_on_save = {
@@ -380,6 +382,7 @@
             installRustc = true;
           };
           clangd.enable = true;
+          basedpyright.enable = true;
         };
       };
 
