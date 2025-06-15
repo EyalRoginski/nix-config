@@ -74,6 +74,8 @@
     xorriso
     grub2
     ruff
+    visidata
+    cargo-expand
   ];
 
   programs.zsh.enable = true;
