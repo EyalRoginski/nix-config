@@ -279,6 +279,11 @@
     plugins = {
       lexima.enable = true;
       nvim-surround.enable = true;
+      codesnap = {
+        enable = true;
+        settings.save_path = "~/downloads/";
+        settings.watermark = "";
+      };
 
       conform-nvim.enable = true;
       conform-nvim.settings = {
