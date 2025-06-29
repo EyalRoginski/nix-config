@@ -1,13 +1,15 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
-
-{ config, lib, pkgs, inputs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.home-manager.nixosModules.default
@@ -26,7 +28,8 @@
 
   programs.zsh.enable = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+  time.timeZone = "Asia/Jerusalem";
 
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
@@ -36,9 +39,8 @@
     isNormalUser = true;
     home = "/home/roginski";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" ]; # Allows sudo
+    extraGroups = ["wheel"]; # Allows sudo
   };
-
 
   environment.systemPackages = [
   ];
