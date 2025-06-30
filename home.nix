@@ -76,6 +76,8 @@
     ruff
     visidata
     cargo-expand
+    python3
+    python312Packages.ipython
   ];
 
   programs.zsh.enable = true;
