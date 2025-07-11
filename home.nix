@@ -78,6 +78,7 @@
     cargo-expand
     python3
     python312Packages.ipython
+    uv
   ];
 
   programs.zsh.enable = true;
