@@ -27,6 +27,7 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
   programs.zsh.enable = true;
+  programs.nix-ld.enable = true; # For uv
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   time.timeZone = "Asia/Jerusalem";
