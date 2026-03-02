@@ -79,6 +79,7 @@
     python3
     python312Packages.ipython
     uv
+    wget
   ];
 
   programs.zsh.enable = true;
