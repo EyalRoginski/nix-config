@@ -80,6 +80,7 @@
     python312Packages.ipython
     uv
     wget
+    wslu
   ];
 
   programs.zsh.enable = true;
