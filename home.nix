@@ -78,10 +78,12 @@
     cargo-expand
     python3
     python312Packages.ipython
+    python312Packages.jupyterlab
     uv
     wget
     wslu
     poetry
+    duckdb
   ];
 
   programs.zsh.enable = true;
@@ -245,6 +247,15 @@
       {
         key = "<leader>Y";
         action = "<cmd>PyrightSetPythonPath .venv/bin/python<CR>zz";
+        mode = "n";
+      }
+
+      {
+        key = "<F2>";
+        action = "<cmd>lua vim.lsp.buf.rename()<CR>";
+        options = {
+          desc = "LSP rename";
+        };
         mode = "n";
       }
 
