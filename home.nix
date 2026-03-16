@@ -76,9 +76,11 @@
     ruff
     visidata
     cargo-expand
-    python3
-    python312Packages.ipython
-    python312Packages.jupyterlab
+    (pkgs.python312.withPackages (ps:
+      with ps; [
+        ipython
+        jupyterlab
+      ]))
     uv
     wget
     wslu
