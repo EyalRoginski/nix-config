@@ -81,6 +81,7 @@
     uv
     wget
     wslu
+    poetry
   ];
 
   programs.zsh.enable = true;
