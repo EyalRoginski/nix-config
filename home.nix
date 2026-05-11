@@ -85,6 +85,7 @@
     wget
     wslu
     poetry
+    pstree
     duckdb
   ];
 
