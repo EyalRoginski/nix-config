@@ -95,13 +95,12 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.graphics.enable = true;
   hardware.nvidia.open = false;
 
   hardware.bluetooth.enable = true;
   hardware.xpadneo.enable = true;
-
 
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
@@ -122,15 +121,17 @@
   programs = {
     firefox.enable = true;
     steam.enable = true;
+    zsh.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
     vim
-    itch
     wineWow64Packages.stable
     winetricks
     lutris
     bibata-cursors
+    man-pages
+    man-pages-posix
   ];
 
   environment.variables = {
@@ -145,6 +146,7 @@
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
+      shell = pkgs.zsh;
       extraGroups = ["networkmanager" "wheel"];
     };
   };
