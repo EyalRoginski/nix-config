@@ -1,48 +1,43 @@
 {
-  description = "Nixos config flake";
+  description = "Your new nix config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # Nixpkgs
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
 
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    dotfiles.url = "github:EyalRoginski/dotfiles";
-    dotfiles.flake = false;
-
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # Home manager
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, ... }@inputs: {
-    # use "nixos", or your hostname as the name of the configuration
-    # it's a better practice than "default" shown in the video
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
-      system = "x86_64-linux";
-      modules = [
-        ./configuration.nix
-        nixos-wsl.nixosModules.default
-      	inputs.home-manager.nixosModules.home-manager {
-          home-manager.extraSpecialArgs = { inherit inputs nixpkgs; };
-        }
-      ];
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: let
+  in {
+    # NixOS configuration entrypoint
+    # Available through 'nixos-rebuild --flake .#your-hostname'
+    nixosConfigurations = {
+      nixos  = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs;};
+        # > Our main nixos configuration file <
+        modules = [./nixos/configuration.nix];
+      };
     };
 
-    homeConfigurations."roginski" = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux; # Or nixpkgs.packages.x86_64-linux;
-      modules = [
-        ./home.nix # Assuming your Home Manager configuration is in home.nix
-      ];
-      # specialArgs = { inherit inputs nixpkgs; };
-      extraSpecialArgs = { inherit inputs nixpkgs; };
+    # Standalone home-manager configuration entrypoint
+    # Available through 'home-manager --flake .#your-username@your-hostname'
+    homeConfigurations = {
+      # FIXME replace with your username@hostname
+      "roginski@nixos" = home-manager.lib.homeManagerConfiguration {
+        # Home-manager requires 'pkgs' instance
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # FIXME replace x86_64-linux with your architecture 
+        extraSpecialArgs = {inherit inputs;};
+        # > Our main home-manager configuration file <
+        modules = [./home-manager/home.nix];
+      };
     };
   };
-
 }
