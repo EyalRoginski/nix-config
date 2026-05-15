@@ -54,6 +54,17 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelParams = [
+    "nvidia-drm.fbdev=1"
+    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+  ];
+
+  zramSwap = {
+    enable = true;
+    memoryPercent = 100;
+  };
+
+  powerManagement.cpuFreqGovernor = "performance";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -62,7 +73,7 @@
   time.timeZone = "Asia/Jerusalem";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_IL";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "he_IL.UTF-8";
@@ -76,12 +87,14 @@
     LC_TIME = "he_IL.UTF-8";
   };
 
+  fonts.packages = with pkgs; [_0xproto noto-fonts];
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -96,8 +109,16 @@
   services.printing.enable = true;
 
   services.xserver.videoDrivers = ["nvidia"];
-  hardware.graphics.enable = true;
-  hardware.nvidia.open = false;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = false;
+    powerManagement.enable = true;
+  };
 
   hardware.bluetooth.enable = true;
   hardware.xpadneo.enable = true;
@@ -132,10 +153,21 @@
     bibata-cursors
     man-pages
     man-pages-posix
+
+    pciutils
+    usbutils
+    mesa-demos
+    vulkan-tools
+    lm_sensors
+    htop
+    busybox
   ];
 
-  environment.variables = {
+  environment.sessionVariables = {
     XCURSOR_THEME = "Bibata-Modern-Ice";
+    MOZ_ENABLE_WAYLAND = "1";
+    MOZ_DISABLE_RDD_SANDBOX = "1";
+    NIXOS_OZONE_WAYLAND = "1";
   };
 
   # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.

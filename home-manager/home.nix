@@ -53,7 +53,13 @@
         }
       ];
     };
-    kitty.enable = true;
+
+    alacritty = {
+      enable = true;
+      settings = {
+        font.normal.family = "0xProto Nerd Font";
+      };
+    };
   };
 
   home.shellAliases = {
@@ -135,8 +141,6 @@
   '';
   home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
   home.file.".p10k.zsh".source = "${inputs.dotfiles}/shell/.p10k.zsh";
-  # For easier access to windows downloads folder from within WSL
-  home.file."downloads".source = config.lib.file.mkOutOfStoreSymlink "/mnt/c/Users/eyal7/Downloads/";
 
   programs.nixvim = {
     enable = true;
