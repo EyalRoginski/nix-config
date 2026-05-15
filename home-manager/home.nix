@@ -13,7 +13,6 @@
     # inputs.nix-colors.homeManagerModule
 
     # You can also split up your configuration and import pieces of it here:
-    # ./nvim.nix
     inputs.nixvim.homeModules.nixvim
   ];
 
@@ -56,8 +55,10 @@
 
     alacritty = {
       enable = true;
+      theme = "nordic";
       settings = {
         font.normal.family = "0xProto Nerd Font";
+        font.normal.style = "Regular";
       };
     };
   };
@@ -139,7 +140,7 @@
     source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
     source ~/.p10k.zsh
   '';
-  home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
+  # home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
   home.file.".p10k.zsh".source = "${inputs.dotfiles}/shell/.p10k.zsh";
 
   programs.nixvim = {
@@ -532,6 +533,16 @@
     enable = true;
     mouse = true;
     shell = "${pkgs.zsh}/bin/zsh";
+    prefix = "C-s";
+
+    terminal = "tmux-256color";
+    extraConfig = ''
+      set -g default-terminal "tmux-256color"
+      set -as terminal-features ",alacritty:RGB"
+      set-option -ga terminal-overrides ",alacritty:Tc"
+      set -g status-position top
+    '';
+
     plugins = with pkgs; [
       tmuxPlugins.sensible
       {

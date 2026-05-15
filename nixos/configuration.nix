@@ -84,10 +84,10 @@
     LC_NUMERIC = "he_IL.UTF-8";
     LC_PAPER = "he_IL.UTF-8";
     LC_TELEPHONE = "he_IL.UTF-8";
-    LC_TIME = "he_IL.UTF-8";
+    LC_TIME = "en_US.UTF-8";
   };
 
-  fonts.packages = with pkgs; [_0xproto noto-fonts];
+  fonts.packages = with pkgs; [nerd-fonts._0xproto noto-fonts];
 
   services = {
     desktopManager.plasma6.enable = true;
@@ -154,6 +154,7 @@
     bibata-cursors
     man-pages
     man-pages-posix
+    ncurses
 
     pciutils
     usbutils
