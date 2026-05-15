@@ -89,17 +89,18 @@
 
   fonts.packages = with pkgs; [_0xproto noto-fonts];
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
+  services = {
+    desktopManager.plasma6.enable = true;
+    displayManager.sddm.enable = true;
+    displayManager.sddm.wayland.enable = true;
+    xserver.enable = true;
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
-    layout = "il";
+    layout = "il,us";
     variant = "";
+    options = "grp:lalt_lshift_toggle";
   };
 
   # Configure console keymap
@@ -161,6 +162,25 @@
     lm_sensors
     htop
     busybox
+
+    # KDE Utilities
+    kdePackages.discover # Optional: Software center for Flatpaks/firmware updates
+    kdePackages.kcalc # Calculator
+    kdePackages.kcharselect # Character map
+    kdePackages.kclock # Clock app
+    kdePackages.kcolorchooser # Color picker
+    kdePackages.kolourpaint # Simple paint program
+    kdePackages.ksystemlog # System log viewer
+    kdePackages.sddm-kcm # SDDM configuration module
+    kdiff3 # File/directory comparison tool
+
+    # Hardware/System Utilities (Optional)
+    kdePackages.isoimagewriter # Write hybrid ISOs to USB
+    kdePackages.partitionmanager # Disk and partition management
+    hardinfo2 # System benchmarks and hardware info
+    wayland-utils # Wayland diagnostic tools
+    wl-clipboard # Wayland copy/paste support
+    vlc # Media player
   ];
 
   environment.sessionVariables = {
