@@ -527,6 +527,7 @@
   programs.tmux = {
     enable = true;
     mouse = true;
+    shell = "${pkgs.zsh}/bin/zsh";
     plugins = with pkgs; [
       tmuxPlugins.sensible
       {
