@@ -185,7 +185,6 @@
   ];
 
   environment.sessionVariables = {
-    XCURSOR_THEME = "Bibata-Modern-Ice";
     MOZ_ENABLE_WAYLAND = "1";
     MOZ_DISABLE_RDD_SANDBOX = "1";
     NIXOS_OZONE_WAYLAND = "1";
