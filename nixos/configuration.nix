@@ -55,8 +55,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelParams = [
-    "nvidia-drm.fbdev=1"
-    "nvidia.NVreg_PreserveVideoMemoryAllocations=1"
+    "nvidia-drm.modeset=1"
+    "nvidia.NVreg_EnableGpuFirmware=0"
   ];
 
   zramSwap = {
@@ -92,8 +92,10 @@
   services = {
     desktopManager.plasma6.enable = true;
     displayManager.sddm.enable = true;
-    displayManager.sddm.wayland.enable = true;
+    displayManager.sddm.wayland.enable = false;
     xserver.enable = true;
+    xserver.displayManager.defaultSession = "plasmax11";
+    xserver.videoDrivers = ["nvidia"];
   };
 
   # Configure keymap in X11
@@ -109,7 +111,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  services.xserver.videoDrivers = ["nvidia"];
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -117,8 +118,13 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
+
     open = false;
-    powerManagement.enable = true;
+
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+
+    package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
   hardware.bluetooth.enable = true;
@@ -185,12 +191,9 @@
   ];
 
   environment.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
-    MOZ_DISABLE_RDD_SANDBOX = "1";
-    NIXOS_OZONE_WAYLAND = "1";
+    LIBVA_DRIVER_NAME = "nvidia";
   };
 
-  # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
   users.users = {
     roginski = {
       isNormalUser = true;
