@@ -94,9 +94,18 @@
     displayManager.sddm.enable = true;
     displayManager.sddm.wayland.enable = false;
     xserver.enable = true;
-    xserver.displayManager.defaultSession = "plasmax11";
     xserver.videoDrivers = ["nvidia"];
   };
+
+  nixpkgs.config.pulseaudio = true;
+
+  services.xserver = {
+    desktopManager = {
+      xterm.enable = false;
+      xfce.enable = true;
+    };
+  };
+  services.displayManager.defaultSession = "xfce";
 
   # Configure keymap in X11
   services.xserver.xkb = {
