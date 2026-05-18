@@ -68,6 +68,8 @@
         font.normal.style = "Regular";
       };
     };
+
+    mangohud.enable = true;
   };
 
   home.shellAliases = {
