@@ -54,10 +54,6 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = [
-    "nvidia-drm.modeset=1"
-    "nvidia.NVreg_EnableGpuFirmware=0"
-  ];
 
   zramSwap = {
     enable = true;
@@ -92,20 +88,10 @@
   services = {
     desktopManager.plasma6.enable = true;
     displayManager.sddm.enable = true;
-    displayManager.sddm.wayland.enable = false;
-    xserver.enable = true;
     xserver.videoDrivers = ["nvidia"];
   };
 
   nixpkgs.config.pulseaudio = true;
-
-  services.xserver = {
-    desktopManager = {
-      xterm.enable = false;
-      xfce.enable = true;
-    };
-  };
-  services.displayManager.defaultSession = "xfce";
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -127,13 +113,7 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-
     open = false;
-
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
-
-    package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
   hardware.bluetooth.enable = true;
@@ -198,10 +178,6 @@
     wl-clipboard # Wayland copy/paste support
     vlc # Media player
   ];
-
-  environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "nvidia";
-  };
 
   users.users = {
     roginski = {
