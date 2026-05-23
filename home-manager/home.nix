@@ -1,23 +1,75 @@
+# This is your home-manager configuration file
+# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
+  inputs,
+  lib,
   config,
   pkgs,
-  inputs,
   ...
 }: {
+  # You can import other home-manager modules here
   imports = [
+    # If you want to use home-manager modules from other flakes (such as nix-colors):
+    # inputs.nix-colors.homeManagerModule
+
+    # You can also split up your configuration and import pieces of it here:
     inputs.nixvim.homeModules.nixvim
   ];
+
+  nixpkgs = {
+    # You can add overlays here
+    overlays = [
+      # If you want to use overlays exported from other flakes:
+      # neovim-nightly-overlay.overlays.default
+
+      # Or define it inline, for example:
+      # (final: prev: {
+      #   hi = final.hello.overrideAttrs (oldAttrs: {
+      #     patches = [ ./change-hello-to-hi.patch ];
+      #   });
+      # })
+    ];
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
+  };
 
   home.username = "roginski";
   home.homeDirectory = "/home/roginski";
 
-  # Let Home Manager manage itself
-  programs.home-manager.enable = true;
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+    size = 24;
+  };
 
-  programs.git = {
-    enable = true;
-    userName = "EyalRoginski";
-    userEmail = "eyalrog1@gmail.com";
+  programs = {
+    home-manager.enable = true;
+    git = {
+      enable = true;
+      includes = [
+        {
+          contents = {
+            user.email = "eyalrog1@gmail.com";
+            user.name = "Eyal Roginski";
+          };
+        }
+      ];
+    };
+
+    alacritty = {
+      enable = true;
+      theme = "nordic";
+      settings = {
+        font.normal.family = "0xProto Nerd Font";
+        font.normal.style = "Regular";
+      };
+    };
+
+    mangohud.enable = true;
   };
 
   home.shellAliases = {
@@ -97,10 +149,8 @@
     source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
     source ~/.p10k.zsh
   '';
-  home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
+  # home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
   home.file.".p10k.zsh".source = "${inputs.dotfiles}/shell/.p10k.zsh";
-  # For easier access to windows downloads folder from within WSL
-  home.file."downloads".source = config.lib.file.mkOutOfStoreSymlink "/mnt/c/Users/eyal7/Downloads/";
 
   programs.nixvim = {
     enable = true;
@@ -491,6 +541,17 @@
   programs.tmux = {
     enable = true;
     mouse = true;
+    shell = "${pkgs.zsh}/bin/zsh";
+    prefix = "C-s";
+
+    terminal = "tmux-256color";
+    extraConfig = ''
+      set -g default-terminal "tmux-256color"
+      set -as terminal-features ",alacritty:RGB"
+      set-option -ga terminal-overrides ",alacritty:Tc"
+      set -g status-position top
+    '';
+
     plugins = with pkgs; [
       tmuxPlugins.sensible
       {
@@ -508,6 +569,6 @@
     ];
   };
 
-  # This is required
-  home.stateVersion = "24.11";
+  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
+  home.stateVersion = "25.11";
 }

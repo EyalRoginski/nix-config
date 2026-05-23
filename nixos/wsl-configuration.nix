@@ -11,8 +11,6 @@
   ...
 }: {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
-    inputs.home-manager.nixosModules.default
   ];
 
   wsl.enable = true;
@@ -31,10 +29,6 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   time.timeZone = "Asia/Jerusalem";
-
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.roginski = import ./home.nix;
 
   users.users.roginski = {
     isNormalUser = true;
