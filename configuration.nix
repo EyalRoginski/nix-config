@@ -46,7 +46,15 @@
   environment.systemPackages = with pkgs; [
     man-pages
     man-pages-posix
+    binutils
+    bison
+    gcc
+    gnum4
+    gnumake
+    python314
   ];
+
+  environment.variables = {LFS = "/mnt/lfs";};
 
   documentation = {
     dev.enable = true;
