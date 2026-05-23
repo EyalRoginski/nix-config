@@ -105,7 +105,6 @@
     git
     fd
     openssh
-    tmux
     tree
     zsh-powerlevel10k
     gcc
@@ -543,12 +542,10 @@
     mouse = true;
     shell = "${pkgs.zsh}/bin/zsh";
     prefix = "C-s";
-
     terminal = "tmux-256color";
+
     extraConfig = ''
-      set -g default-terminal "tmux-256color"
-      set -as terminal-features ",alacritty:RGB"
-      set-option -ga terminal-overrides ",alacritty:Tc"
+      set -ag terminal-overrides ",*:RGB"
       set -g status-position top
     '';
 
