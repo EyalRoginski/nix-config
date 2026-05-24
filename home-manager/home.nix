@@ -547,6 +547,24 @@
     extraConfig = ''
       set -ag terminal-overrides ",*:RGB"
       set -g status-position top
+
+      unbind c
+      bind c new-window -c "#{session_path}"
+      bind | split-window -h -c "#{session_path}"
+      bind - split-window -v -c "#{session_path}"
+      unbind '"'
+      unbind %
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+      set -g default-terminal "screen-256color"
+      set -as terminal-features ",xterm-256color:RGB"
+      set -g mouse on
+      set-window-option -g mode-keys vi
+      bind-key -T copy-mode-vi v send -X begin-selection
+      bind-key -T copy-mode-vi V send -X select-line
+      bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
     '';
 
     plugins = with pkgs; [
