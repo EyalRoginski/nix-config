@@ -48,6 +48,10 @@
     man-pages-posix
   ];
 
+  environment.variables = {
+    LFS = "/mnt/lfs";
+  };
+
   documentation = {
     dev.enable = true;
     man.generateCaches = true;
