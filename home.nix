@@ -101,7 +101,7 @@
     # For sgpt to use github models
     profileExtra = ''
       export OPENAI_API_KEY=$(cat /home/roginski/secrets/github_models_token)
-      export API_BASE_URL=https://models.github.ai/inference/chat/completions
+      export API_BASE_URL=https://models.github.ai/inference
       export USE_LITELLM=true
     '';
   };
