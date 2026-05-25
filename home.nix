@@ -102,6 +102,11 @@
   # For easier access to windows downloads folder from within WSL
   home.file."downloads".source = config.lib.file.mkOutOfStoreSymlink "/mnt/c/Users/eyal7/Downloads/";
 
+  programs.atuin = {
+    enable = true;
+    flags = ["--disable-up-arrow"];
+  };
+
   programs.nixvim = {
     enable = true;
 
