@@ -4,8 +4,6 @@
   inputs,
   ...
 }: {
-  nixpkgs.config.allowUnfree = true;
-
   imports = [
     inputs.nixvim.homeModules.nixvim
   ];
@@ -119,6 +117,7 @@
 
   programs.nixvim = {
     enable = true;
+    nixpkgs.useGlobalPackages = true;
 
     colorschemes.kanagawa.enable = true;
 
