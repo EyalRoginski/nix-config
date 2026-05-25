@@ -43,9 +43,35 @@
     extraGroups = ["wheel"]; # Allows sudo
   };
 
+  users.users.lfs = {
+    isNormalUser = true;
+    shell = pkgs.bash;
+    packages = with pkgs; [
+    ];
+  };
+
   environment.systemPackages = with pkgs; [
     man-pages
     man-pages-posix
+    bash
+    binutils
+    bison
+    coreutils
+    diffutils
+    findutils
+    gawk
+    gcc
+    gnugrep
+    gzip
+    m4
+    gnumake
+    patch
+    perl
+    python3
+    gnused
+    gnutar
+    texinfo
+    xz
   ];
 
   environment.variables = {
