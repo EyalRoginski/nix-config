@@ -39,10 +39,17 @@
           home-manager.extraSpecialArgs = {inherit inputs nixpkgs;};
         }
       ];
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
     };
 
     homeConfigurations."roginski" = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux; # Or nixpkgs.packages.x86_64-linux;
+      pkgs = import nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
       modules = [
         ./home.nix # Assuming your Home Manager configuration is in home.nix
       ];

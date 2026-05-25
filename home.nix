@@ -4,6 +4,8 @@
   inputs,
   ...
 }: {
+  nixpkgs.config.allowUnfree = true;
+
   imports = [
     inputs.nixvim.homeModules.nixvim
   ];
