@@ -26,6 +26,9 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
 
+  networking.resolvconf.enable = false; # Resolve conflict with something related to WSL
+  nixpkgs.config.allowUnfree = true;
+
   programs.zsh.enable = true;
   programs.nix-ld.enable = true; # For uv
 

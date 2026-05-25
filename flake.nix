@@ -2,7 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
@@ -20,7 +20,12 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, ... }@inputs: {
+  outputs = {
+    self,
+    nixpkgs,
+    nixos-wsl,
+    ...
+  } @ inputs: {
     # use "nixos", or your hostname as the name of the configuration
     # it's a better practice than "default" shown in the video
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
@@ -29,8 +34,9 @@
       modules = [
         ./configuration.nix
         nixos-wsl.nixosModules.default
-      	inputs.home-manager.nixosModules.home-manager {
-          home-manager.extraSpecialArgs = { inherit inputs nixpkgs; };
+        inputs.home-manager.nixosModules.home-manager
+        {
+          home-manager.extraSpecialArgs = {inherit inputs nixpkgs;};
         }
       ];
     };
@@ -41,8 +47,7 @@
         ./home.nix # Assuming your Home Manager configuration is in home.nix
       ];
       # specialArgs = { inherit inputs nixpkgs; };
-      extraSpecialArgs = { inherit inputs nixpkgs; };
+      extraSpecialArgs = {inherit inputs nixpkgs;};
     };
   };
-
 }

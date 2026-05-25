@@ -83,20 +83,28 @@
       ]))
     uv
     wget
-    wslu
     poetry
     pstree
     duckdb
+    shell-gpt
   ];
 
-  programs.zsh.enable = true;
-  programs.zsh.initContent = ''
-    tncs() {
-      tmux new -c "$1" -s "$2"
-    }
-    source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
-    source ~/.p10k.zsh
-  '';
+  programs.zsh = {
+    enable = true;
+    initContent = ''
+      tncs() {
+        tmux new -c "$1" -s "$2"
+      }
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+      source ~/.p10k.zsh
+    '';
+    # For sgpt to use github models
+    profileExtra = ''
+      export OPENAI_API_KEY=$(cat /home/roginski/secrets/github_models_token)
+      export API_BASE_URL=https://models.github.ai/inference/chat/completions
+      export USE_LITELLM=true
+    '';
+  };
   home.file.".tmux.conf".source = "${inputs.dotfiles}/shell/.tmux.conf";
   home.file.".p10k.zsh".source = "${inputs.dotfiles}/shell/.p10k.zsh";
   # For easier access to windows downloads folder from within WSL
