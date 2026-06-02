@@ -87,7 +87,14 @@
     pstree
     duckdb
     shell-gpt
+    opencode
+    maven
+    jdk8
   ];
+
+  home.sessionVariables = {
+    JAVA_HOME = "${pkgs.jdk8}";
+  };
 
   programs.zsh = {
     enable = true;
