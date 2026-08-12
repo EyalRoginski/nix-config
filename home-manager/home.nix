@@ -70,6 +70,7 @@
     };
 
     mangohud.enable = true;
+    obsidian.enable = true;
   };
 
   home.shellAliases = {
