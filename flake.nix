@@ -10,12 +10,15 @@
     home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    dotfiles.url = "github:EyalRoginski/dotfiles";
-    dotfiles.flake = false;
+    alacritty-theme = {
+      url = "github:alacritty/alacritty-theme";
+      flake = false;
+    };
 
-    nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.11";
-      inputs.nixpkgs.follows = "nixpkgs";
+    # Tmux plugin manager, not packaged in nixpkgs
+    tpm = {
+      url = "github:tmux-plugins/tpm";
+      flake = false;
     };
 
     # Hourly-updated Claude Code binary, newer than nixpkgs/nixpkgs-unstable
