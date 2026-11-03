@@ -24,6 +24,8 @@ in {
   nixpkgs = {
     # You can add overlays here
     overlays = [
+      inputs.claude-code-nix.overlays.default
+
       # If you want to use overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
 
@@ -147,6 +149,8 @@ in {
     duckdb
     opencode
     unstable.antigravity-cli
+    claude-code
+    unstable.godot-mono
   ];
 
   programs.zsh.enable = true;
