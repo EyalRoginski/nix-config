@@ -177,6 +177,8 @@
     wayland-utils # Wayland diagnostic tools
     wl-clipboard # Wayland copy/paste support
     vlc # Media player
+    transmission_4-qt # Transmission torrent client (Qt GUI)
+    discord
   ];
 
   users.users = {
