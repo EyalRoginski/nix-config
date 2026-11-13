@@ -56,7 +56,6 @@
     tmux
     tree
     zsh-powerlevel10k
-    gcc
     nodejs_24
     bat
     cargo

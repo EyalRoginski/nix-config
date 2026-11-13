@@ -48,6 +48,25 @@
   environment.systemPackages = with pkgs; [
     man-pages
     man-pages-posix
+    flex
+    pahole
+    kmod
+    e2fsprogs
+    jfsutils
+    xfsprogs
+    squashfsTools
+    btrfs-progs
+    pcmciautils
+    linuxquota
+    ppp
+    nfs-utils
+    mcelog
+    openssl
+    openssl.dev
+    bc
+    sphinx
+    global
+    bison
   ];
 
   documentation = {
